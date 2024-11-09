@@ -10,20 +10,23 @@
     </head>
     <body>
         <div id="root"></div>
+        <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.58.3/build/stlite.js"></script>
         <script>
             stlite.mount(
-                {
-                    requirements: ["pandas", "streamlit"],
-                    entrypoint: "main.py",
-                    files: {
-                        "main.py": `
-                            import streamlit as st
-                            import pandas as pd
-                            st.title('Streamlit example')`
-                    }
+              {
+                requirements: ["pandas", "streamlit"],
+                entrypoint: "main.py",
+                files: {
+                  "main.py": `
+                    import streamlit as st
+                    import pandas as pd
+      
+                    st.title('Streamlit example')
+                    `,
                 },
-                document.getElementById("root")
-            )
-        </script>
+              },
+              document.getElementById("root")
+            );
+          </script>
     </body>
 </html>
