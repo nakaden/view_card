@@ -1,22 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>stlite app</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.39.0/build/stlite.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Stlite App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.css"
+    />
   </head>
   <body>
     <div id="root"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.39.0/build/stlite.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.js"></script>
     <script>
-      stlite.mount(
-        `
-            import streamlit as st
+      stlite.mount({
+        requirements: ["pandas"],
+        entrypoint: "main.py",
+        files: {
+            "main.py": `
+import streamlit as st
+import pandas as pd
 
-            st.title('Streamlit example')
-        `,
+st.title("csv checker")
+
+uploader = st.file_uploader("Choose a file")
+
+if uploader is not None:
+    df = pd.read_csv(uploader)
+    columns = st.multiselect("列の絞り込み", df.columns)
+
+    # 列選択
+    filterd_df = df[columns]
+
+    # 詳細検索
+    col1 , col2,  col3, col4 = st.columns((2, 1, 2, 1))
+    with col1:
+        more_filter = st.selectbox(label="列", options=columns, label_visibility="collapsed")
+    with col2:
+        st.text("が")
+    with col3:
+        word = st.text_input(label="文字列", label_visibility="collapsed")
+    with col4:
+        st.text("を含む")
+
+    # テーブルデータ表示
+    if word:
+        # 特定の文字を含む行に絞り込んで表示する
+        # https://note.nkmk.me/python-pandas-str-contains-match/#strcontains
+        st.dataframe(filterd_df[filterd_df[more_filter].str.contains(word, na=False)])
+    else:
+        st.dataframe(filterd_df)
+`
+        },
+        },
         document.getElementById("root")
       );
     </script>
