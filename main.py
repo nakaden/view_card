@@ -7,7 +7,7 @@ uploader = st.file_uploader("Choose a file")
 
 if uploader is not None:
     df = pd.read_csv(uploader)
-    columns = st.multiselect("列の絞り込み", df.columns)
+    columns = st.multiselect("列の絞り込み", df.columns, [df.columns[0]])
 
     # 列選択
     filterd_df = df[columns]
