@@ -1,3 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Stlite App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.css"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.69.2/build/stlite.js"></script>
+    <script>
+      stlite.mount({
+        requirements: ["pandas"],
+        entrypoint: "main.py",
+        files: {
+            "main.py": `
 import streamlit as st
 import pandas as pd
 
@@ -30,3 +54,11 @@ if uploader is not None:
         st.dataframe(filterd_df[filterd_df[more_filter].str.contains(word, na=False)])
     else:
         st.dataframe(filterd_df)
+`
+        },
+        },
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>
